@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField] private string horizontalInputName, verticalInputName;
     [SerializeField] private float movementSpeed;
-    
-    private CharacterController charController;
 
     [SerializeField] private AnimationCurve jumpFallOff;
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private KeyCode jumpKey;
+#pragma warning restore 0649
+
+    private CharacterController charController;
+
+    
     private bool isJumping;
     
     private void Awake()

@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-
+#pragma warning disable 0649
     [SerializeField] private Transform playerBody;
     [SerializeField] private string mouseXInputName, mouseYInputName;
 
     [SerializeField] private float mouseSensitivity = 150f;
-    [SerializeField] private float rotationSpeed = 5f;
+#pragma warning restore 0649
 
     private float xAxisClamp;
-
-    private float xRotation = 0f;
-    private float yRotation = 0f;
 
     private void Awake()
     {

@@ -16,3 +16,57 @@ public abstract class State
     public abstract void Update();
     public abstract void Exit();
 }
+
+public class EnemyIdle : State
+{
+    public override void Enter()
+    {
+        owner.NavMeshAgent.isStopped = true;
+    }
+
+    public override void Update()
+    {
+        
+    }
+
+    public override void Exit()
+    {
+        owner.NavMeshAgent.isStopped = false;
+    }
+}
+
+public class EnemyChase : State
+{
+    public override void Enter()
+    {
+        owner.NavMeshAgent.isStopped = false;
+    }
+
+    public override void Update()
+    {
+        //owner.NavMeshAgent.SetDestination()
+    }
+
+    public override void Exit()
+    {
+        
+    }
+}
+
+public class EnemyReturn : State
+{
+    public override void Enter()
+    {
+        owner.NavMeshAgent.isStopped = false;
+    }
+
+    public override void Update()
+    {
+        //owner.NavMeshAgent.SetDestination()
+    }
+
+    public override void Exit()
+    {
+
+    }
+}
