@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StateType { Idle, Chase, Return, Dead }
-public abstract class State
+public enum EnemyStateType { Idle, Chase, Return, Dead }
+public abstract class EnemyState
 {
-    protected FSM owner;
-
-    public void Initialize(FSM owner)
+    protected EnemyFSM owner;
+    protected Enemy enemy;
+    public void Initialize(EnemyFSM owner)
     {
         this.owner = owner;
+        enemy = owner.owner;
     }
 
     public abstract void Enter();
@@ -17,7 +18,7 @@ public abstract class State
     public abstract void Exit();
 }
 
-public class EnemyIdle : State
+public class EnemyIdle : EnemyState
 {
     public override void Enter()
     {
@@ -31,11 +32,11 @@ public class EnemyIdle : State
 
     public override void Exit()
     {
-        owner.NavMeshAgent.isStopped = false;
+
     }
 }
 
-public class EnemyChase : State
+public class EnemyChase : EnemyState
 {
     public override void Enter()
     {
@@ -44,7 +45,7 @@ public class EnemyChase : State
 
     public override void Update()
     {
-        //owner.NavMeshAgent.SetDestination()
+        owner.NavMeshAgent.SetDestination(enemy.target.position);
     }
 
     public override void Exit()
@@ -53,11 +54,31 @@ public class EnemyChase : State
     }
 }
 
-public class EnemyReturn : State
+public class EnemyReturn : EnemyState
 {
     public override void Enter()
     {
         owner.NavMeshAgent.isStopped = false;
+    }
+
+    public override void Update()
+    {
+        owner.NavMeshAgent.SetDestination(enemy.startingPoint);
+    }
+
+    public override void Exit()
+    {
+
+    }
+}
+
+public class EnemyDead : EnemyState
+{
+    public override void Enter()
+    {
+        owner.NavMeshAgent.isStopped = true;
+        Debug.Log("oh nooo am ded");
+        
     }
 
     public override void Update()

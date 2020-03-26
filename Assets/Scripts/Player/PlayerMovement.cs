@@ -14,8 +14,6 @@ public class PlayerMovement : MonoBehaviour
 #pragma warning restore 0649
 
     private CharacterController charController;
-
-    
     private bool isJumping;
     
     private void Awake()
@@ -28,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
         PlayerMove();
     }
 
+    //handle player movement with input from the horizontal and vertical axes
     private void PlayerMove()
     {
         float horizInput = Input.GetAxis(horizontalInputName) * movementSpeed;
@@ -41,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         JumpInput();
     }
 
+    //handle jump input
     private void JumpInput()
     {
         if(Input.GetKeyDown(jumpKey) && !isJumping)
@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //jump movement
     private IEnumerator JumpEvent()
     {
         charController.slopeLimit = 90.0f;
