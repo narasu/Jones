@@ -5,20 +5,21 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public NavMeshAgent navMeshAgent;
+    [HideInInspector] public NavMeshAgent navMeshAgent;
     
     private EnemyFSM fsm = new EnemyFSM();
 
 #pragma warning disable 0649
     public Transform target;
 #pragma warning restore 0649
-    public Vector3 startingPoint;
-    
-    [SerializeField]private float speed;
+    [HideInInspector] public Vector3 startingPoint;
+    private float speed;
+    public float hitRange;
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        speed = navMeshAgent.speed;
         startingPoint = transform.position;
         
         //start state machine
@@ -47,6 +48,7 @@ public class Enemy : MonoBehaviour
     public void Return()
     {
         fsm.GotoState(EnemyStateType.Return);
+        
     }
 
     public void Die()
@@ -54,12 +56,14 @@ public class Enemy : MonoBehaviour
         fsm.GotoState(EnemyStateType.Dead);
     }
 
+    /*
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("hit");
+        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag=="Player")
         {
             Return();
         }
     }
+    */
 }

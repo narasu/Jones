@@ -43,6 +43,7 @@ public class MouseLook : MonoBehaviour
             mouseY = 0.0f;
             ClampXAxisRotationToValue(270.0f);
         }
+
         if (xAxisClamp < -90.0f)
         {
             xAxisClamp = -90.0f;

@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
 #pragma warning disable 0649
     [SerializeField] private string horizontalInputName, verticalInputName;
     [SerializeField] private float movementSpeed;
 
-    [SerializeField] private AnimationCurve jumpFallOff;
+    [Space] [SerializeField] private AnimationCurve jumpFallOff;
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private KeyCode jumpKey;
+
+    [Space] [SerializeField] private GameObject trapPrefab;
+    [SerializeField] [Tooltip("How many traps does the player have at the start of the level?")] private int numberOfTraps;
 #pragma warning restore 0649
 
     private CharacterController charController;
@@ -24,6 +27,11 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         PlayerMove();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            SetTrap();
+        }
     }
 
     //handle player movement with input from the horizontal and vertical axes
@@ -38,6 +46,18 @@ public class PlayerMovement : MonoBehaviour
         charController.SimpleMove(forwardMovement + rightMovement);
 
         JumpInput();
+    }
+    
+    //create a trap at the player's position, if the player has traps in inventory
+    private void SetTrap()
+    {
+        if (numberOfTraps <= 0)
+            return;
+
+        
+        GameObject trap = Instantiate(trapPrefab);
+        trap.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        numberOfTraps--;
     }
 
     //handle jump input
