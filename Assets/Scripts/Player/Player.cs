@@ -13,8 +13,11 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode jumpKey;
 
     [Space] [SerializeField] private GameObject trapPrefab;
-    [SerializeField] [Tooltip("How many traps does the player have at the start of the level?")] private int numberOfTraps;
+
 #pragma warning restore 0649
+
+    [SerializeField] [Tooltip("How many traps does the player have at the start of the level?")] private int numberOfTraps = 5;
+    private int currentTraps; // current number of traps
 
     private CharacterController charController;
     private bool isJumping;
@@ -22,6 +25,11 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         charController = GetComponent<CharacterController>();
+    }
+
+    private void Start()
+    {
+        currentTraps = numberOfTraps;
     }
 
     private void Update()
@@ -51,13 +59,19 @@ public class Player : MonoBehaviour
     //create a trap at the player's position, if the player has traps in inventory
     private void SetTrap()
     {
-        if (numberOfTraps <= 0)
+        if (currentTraps <= 0)
             return;
 
         
         GameObject trap = Instantiate(trapPrefab);
+        GameManager.Instance.AddTrapToList(trap);
         trap.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        numberOfTraps--;
+        currentTraps--;
+    }
+
+    public void RefillTraps()
+    {
+        currentTraps = numberOfTraps;
     }
 
     //handle jump input

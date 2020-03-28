@@ -23,7 +23,8 @@ public class EnemyIdle : EnemyState
 {
     public override void Enter()
     {
-        owner.NavMeshAgent.isStopped = true;
+        if (enemy.isActiveAndEnabled)
+            owner.NavMeshAgent.isStopped = true;
     }
 
     public override void Update()
@@ -76,7 +77,10 @@ public class EnemyReturn : EnemyState
 
     public override void Update()
     {
-        
+        if (enemy.transform.position == enemy.startingPoint)
+        {
+            enemy.Idle();
+        }
     }
 
     public override void Exit()
@@ -92,7 +96,6 @@ public class EnemyDead : EnemyState
     {
         owner.NavMeshAgent.isStopped = true;
         Debug.Log("oh nooo am ded");
-        
     }
 
     public override void Update()

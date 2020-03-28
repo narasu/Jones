@@ -15,7 +15,7 @@ public class ChaseTrigger : MonoBehaviour
         {
             enemy.target = other.transform;
             enemy.ChasePlayer();
-            Destroy(this);
+            gameObject.SetActive(false);
         }
     }
 }

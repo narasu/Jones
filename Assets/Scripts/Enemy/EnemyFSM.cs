@@ -35,7 +35,6 @@ public class EnemyFSM
     public void UpdateState()
     {
         currentState?.Update();
-        //Debug.Log(currentState);
     }
 
     public void GotoState(EnemyStateType key)
@@ -47,13 +46,5 @@ public class EnemyFSM
 
         currentState = states[key];
         currentState.Enter();
-    }
-
-    public EnemyState GetState()
-    {
-        if (currentState == null)
-            return null;
-
-        return currentState;
     }
 }

@@ -9,17 +9,14 @@ public class Enemy : MonoBehaviour
     
     private EnemyFSM fsm = new EnemyFSM();
 
-#pragma warning disable 0649
     public Transform target;
-#pragma warning restore 0649
-    [HideInInspector] public Vector3 startingPoint;
-    private float speed;
     public float hitRange;
+
+    [HideInInspector] public Vector3 startingPoint;
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        speed = navMeshAgent.speed;
         startingPoint = transform.position;
         
         //start state machine
@@ -32,12 +29,23 @@ public class Enemy : MonoBehaviour
         fsm.AddState(EnemyStateType.Dead, new EnemyDead());
 
         //start in idle state
-        fsm.GotoState(EnemyStateType.Idle);
+        Idle();
     }
 
     private void Update()
     {
         fsm.UpdateState();
+    }
+
+    public void ResetPosition()
+    {
+        //transform.position = startingPoint;
+        navMeshAgent.Warp(startingPoint);
+    }
+
+    public void Idle()
+    {
+        fsm.GotoState(EnemyStateType.Idle);
     }
 
     public void ChasePlayer()
@@ -59,7 +67,6 @@ public class Enemy : MonoBehaviour
     /*
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag=="Player")
         {
             Return();
