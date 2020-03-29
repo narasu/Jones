@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     [Header("Traps")]
     [SerializeField] private GameObject trapPrefab;
 
+    public Vector3 NextPos { get; private set; }
+
 #pragma warning restore 0649
 
     [SerializeField] [Tooltip("How many traps does the player have at the start of the level?")] private int numberOfTraps = 5;
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
     {
         charController = GetComponent<CharacterController>();
         Debug.Log("Traps:" + CurrentTraps);
+        NextPos = transform.position;
     }
 
     private void Start()
@@ -63,6 +66,8 @@ public class Player : MonoBehaviour
         Vector3 rightMovement = transform.right * horizInput;
 
         charController.SimpleMove(forwardMovement + rightMovement);
+
+        NextPos = transform.position + forwardMovement + rightMovement;
 
         JumpInput();
     }

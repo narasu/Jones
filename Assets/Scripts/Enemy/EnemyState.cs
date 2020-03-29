@@ -50,7 +50,8 @@ public class EnemyChase : EnemyState
 
     public override void Update()
     {
-        owner.NavMeshAgent.SetDestination(enemy.target.position);
+        //owner.NavMeshAgent.SetDestination(enemy.target.position);
+        owner.NavMeshAgent.SetDestination(Player.Instance.NextPos);
         
         if (Vector3.Distance(enemy.transform.position, enemy.target.position) < enemy.hitRange)
         {
