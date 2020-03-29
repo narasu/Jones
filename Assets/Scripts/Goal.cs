@@ -10,6 +10,7 @@ public class Goal : MonoBehaviour
         if (other.tag == "Player")
         {
             Debug.Log("Win!");
+            GameManager.Instance.GotoWin();
         }
     }
 }

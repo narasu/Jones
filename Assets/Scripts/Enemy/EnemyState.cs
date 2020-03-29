@@ -18,13 +18,15 @@ public abstract class EnemyState
     public abstract void Exit();
 }
 
-//standing still at starting position
+//Standing still at starting position
 public class EnemyIdle : EnemyState
 {
     public override void Enter()
     {
         if (enemy.isActiveAndEnabled)
+        {
             owner.NavMeshAgent.isStopped = true;
+        }
     }
 
     public override void Update()
@@ -38,7 +40,7 @@ public class EnemyIdle : EnemyState
     }
 }
 
-//chasing the player
+//Chasing the player
 public class EnemyChase : EnemyState
 {
     public override void Enter()
@@ -52,9 +54,8 @@ public class EnemyChase : EnemyState
         
         if (Vector3.Distance(enemy.transform.position, enemy.target.position) < enemy.hitRange)
         {
-            //Debug.Log("Close enough");
-            //owner.NavMeshAgent.isStopped = true;
             enemy.Return();
+            GameManager.Instance.GotoDead();
         }
     }
 
@@ -64,15 +65,13 @@ public class EnemyChase : EnemyState
     }
 }
 
-//returning to starting position
+//Returning to starting position
 public class EnemyReturn : EnemyState
 {
     public override void Enter()
     {
         owner.NavMeshAgent.isStopped = false;
         owner.NavMeshAgent.SetDestination(enemy.startingPoint);
-        
-        //Debug.Log("Returning");
     }
 
     public override void Update()
@@ -89,7 +88,7 @@ public class EnemyReturn : EnemyState
     }
 }
 
-//dead
+//Dead state
 public class EnemyDead : EnemyState
 {
     public override void Enter()
@@ -100,7 +99,7 @@ public class EnemyDead : EnemyState
 
     public override void Update()
     {
-        //owner.NavMeshAgent.SetDestination()
+        
     }
 
     public override void Exit()

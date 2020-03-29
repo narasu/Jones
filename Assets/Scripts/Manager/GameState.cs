@@ -6,17 +6,6 @@ public enum GameStateType { MainMenu, Play, Pause, Win, Dead }
 
 public abstract class GameState
 {
-    /*
-    // will have to consider if this is worth using, it's inefficient since the constructor gets called repeatedly for each subclass
-
-    protected GameManager gameManager;
-
-    public GameState()
-    {
-        gameManager = GameManager.Instance; 
-        //Debug.Log(gameManager);
-    }
-    */
     public abstract void Enter();
     public abstract void Update();
     public abstract void Exit();
@@ -48,26 +37,25 @@ public class PlayState : GameState
     public override void Enter()
     {
         Cursor.lockState = CursorLockMode.Locked;
-
-        //GameManager.Instance.playerInstance?.SetActive(true);
-        //if (GameManager.Instance.playerInstance != null)
-        //    GameManager.Instance.playerInstance.SetActive(true);
-
-
-        // todo: set hud active
+        GameManager.Instance.trapTextObject.SetActive(true);
     }
     public override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             GameManager.Instance.GotoPause();
         }
-            
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Player.Instance?.SetTrap();
+        }
+
+        GameManager.Instance.trapText.text = "Traps: " + Player.Instance.CurrentTraps.ToString();
     }
     public override void Exit()
     {
-        // todo: set hud inactive
-        GameManager.Instance.playerInstance?.SetActive(false);
+        GameManager.Instance.trapTextObject.SetActive(false);
     }
 }
 public class PauseState : GameState
@@ -81,7 +69,7 @@ public class PauseState : GameState
     }
     public override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
             GameManager.Instance.GotoPlay();
     }
     public override void Exit()
@@ -94,7 +82,8 @@ public class WinState : GameState
 {
     public override void Enter()
     {
-
+        GameManager.Instance.winMenuObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
     public override void Update()
     {
@@ -102,14 +91,15 @@ public class WinState : GameState
     }
     public override void Exit()
     {
-
+        GameManager.Instance.winMenuObject.SetActive(false);
     }
 }
 public class DeadState : GameState
 {
     public override void Enter()
     {
-
+        GameManager.Instance.deadMenuObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
     public override void Update()
     {
@@ -117,6 +107,6 @@ public class DeadState : GameState
     }
     public override void Exit()
     {
-
+        GameManager.Instance.deadMenuObject.SetActive(false);
     }
 }

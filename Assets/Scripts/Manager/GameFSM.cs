@@ -25,13 +25,14 @@ public class GameFSM
     public void UpdateState()
     {
         currentState?.Update();
-        //Debug.Log(currentState);
     }
 
     public void GotoState(GameStateType key)
     {
         if (!states.ContainsKey(key))
+        {
             return;
+        }
 
         currentState?.Exit();
 
@@ -40,5 +41,24 @@ public class GameFSM
         currentState = states[CurrentStateType];
 
         currentState.Enter();
+    }
+
+    public GameState GetState(GameStateType type)
+    {
+        // returns state if it exists, 
+        // else null
+        /*
+        if (states.ContainsKey(type))
+            return states[type];
+        else
+            return null;
+            */
+        
+        //ik ben eigenwijs
+        if (!states.ContainsKey(type))
+        {
+            return null;
+        }
+        return states[type];
     }
 }

@@ -4,20 +4,35 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private static Player instance;
+    public static Player Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<Player>();
+
+            return instance;
+        }
+    }
+
 #pragma warning disable 0649
+    [Header("Movement")]
     [SerializeField] private string horizontalInputName, verticalInputName;
     [SerializeField] private float movementSpeed;
 
-    [Space] [SerializeField] private AnimationCurve jumpFallOff;
+    [Header("Jumping")]
+    [SerializeField] private AnimationCurve jumpFallOff;
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private KeyCode jumpKey;
 
-    [Space] [SerializeField] private GameObject trapPrefab;
+    [Header("Traps")]
+    [SerializeField] private GameObject trapPrefab;
 
 #pragma warning restore 0649
 
     [SerializeField] [Tooltip("How many traps does the player have at the start of the level?")] private int numberOfTraps = 5;
-    private int currentTraps; // current number of traps
+    [HideInInspector] public int CurrentTraps  { get; private set; } // how many traps the player is currently holding
 
     private CharacterController charController;
     private bool isJumping;
@@ -25,21 +40,17 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         charController = GetComponent<CharacterController>();
+        Debug.Log("Traps:" + CurrentTraps);
     }
 
     private void Start()
     {
-        currentTraps = numberOfTraps;
+        RefillTraps();
     }
 
     private void Update()
     {
         PlayerMove();
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            SetTrap();
-        }
     }
 
     //handle player movement with input from the horizontal and vertical axes
@@ -57,21 +68,23 @@ public class Player : MonoBehaviour
     }
     
     //create a trap at the player's position, if the player has traps in inventory
-    private void SetTrap()
+    public void SetTrap()
     {
-        if (currentTraps <= 0)
+        if (CurrentTraps <= 0)
             return;
 
         
         GameObject trap = Instantiate(trapPrefab);
         GameManager.Instance.AddTrapToList(trap);
         trap.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        currentTraps--;
+        CurrentTraps--;
     }
+
+    
 
     public void RefillTraps()
     {
-        currentTraps = numberOfTraps;
+        CurrentTraps = numberOfTraps;
     }
 
     //handle jump input
