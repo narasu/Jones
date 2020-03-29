@@ -14,18 +14,27 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public Vector3 startingPoint;
 
-    private void Start()
+    [HideInInspector] public AudioSource audioSource;
+    public AudioClip growl;
+    public AudioClip footsteps;
+    public AudioClip dying;
+    [SerializeField] private float footstepInterval = 0.3f;
+    private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
         startingPoint = transform.position;
-        
+
+    }
+    private void Start()
+    {
         //start state machine
         fsm.Initialize(this);
 
         //add states
         fsm.AddState(EnemyStateType.Idle, new EnemyIdle());
         fsm.AddState(EnemyStateType.Chase, new EnemyChase());
-        fsm.AddState(EnemyStateType.Return, new EnemyReturn());
+        //fsm.AddState(EnemyStateType.Return, new EnemyReturn());
         fsm.AddState(EnemyStateType.Dead, new EnemyDead());
 
         //start in idle state
@@ -35,6 +44,24 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         fsm.UpdateState();
+
+        if (Input.GetKeyDown(KeyCode.F))
+            ResetPosition();
+    }
+
+    //footstep sound effect plays every footstepInterval
+    public IEnumerator Footsteps()
+    {
+        while (true)
+        {
+            MakeNoise(footsteps);
+            yield return new WaitForSeconds(footstepInterval);
+        }
+    }
+
+    public void MakeNoise(AudioClip audioClip)
+    {
+        audioSource.PlayOneShot(audioClip, 1);
     }
 
     public void ResetPosition()
@@ -56,7 +83,6 @@ public class Enemy : MonoBehaviour
     public void Return()
     {
         fsm.GotoState(EnemyStateType.Return);
-        
     }
 
     public void Die()

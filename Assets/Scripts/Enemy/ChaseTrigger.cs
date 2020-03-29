@@ -14,6 +14,7 @@ public class ChaseTrigger : MonoBehaviour
         if (other.tag == "Player")
         {
             enemy.target = other.transform;
+            enemy.MakeNoise(enemy.growl);
             enemy.ChasePlayer();
             gameObject.SetActive(false);
         }

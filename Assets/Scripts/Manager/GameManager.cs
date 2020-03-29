@@ -115,9 +115,9 @@ public class GameManager : MonoBehaviour
         //reset all enemies to their starting positions and state
         foreach (GameObject enemy in enemies)
         {
-            enemy.SetActive(false);
             enemy.GetComponent<Enemy>().ResetPosition();
             enemy.GetComponent<Enemy>().Idle();
+            enemy.SetActive(false);
         }
 
         //remove all traps from the level

@@ -43,29 +43,44 @@ public class EnemyIdle : EnemyState
 //Chasing the player
 public class EnemyChase : EnemyState
 {
+    Coroutine footsteps;
     public override void Enter()
     {
         owner.NavMeshAgent.isStopped = false;
+        footsteps = enemy.StartCoroutine("Footsteps");
+        
     }
 
     public override void Update()
     {
         //owner.NavMeshAgent.SetDestination(enemy.target.position);
-        owner.NavMeshAgent.SetDestination(Player.Instance.NextPos);
-        
+
+        float distA = Vector3.Distance(enemy.transform.position, enemy.target.position);
+        float distB = Vector3.Distance(enemy.transform.position, Player.Instance.NextPos);
+
+        if (distB>distA)
+        {
+            owner.NavMeshAgent.SetDestination(Player.Instance.NextPos);
+        }
+        else
+        {
+            owner.NavMeshAgent.SetDestination(enemy.target.position);
+        }
+
         if (Vector3.Distance(enemy.transform.position, enemy.target.position) < enemy.hitRange)
         {
-            enemy.Return();
+            //enemy.Return();
             GameManager.Instance.GotoDead();
         }
     }
 
     public override void Exit()
     {
-        
+        enemy.StopCoroutine(footsteps);
     }
 }
 
+/*
 //Returning to starting position
 public class EnemyReturn : EnemyState
 {
@@ -88,6 +103,7 @@ public class EnemyReturn : EnemyState
 
     }
 }
+*/
 
 //Dead state
 public class EnemyDead : EnemyState
@@ -95,6 +111,7 @@ public class EnemyDead : EnemyState
     public override void Enter()
     {
         owner.NavMeshAgent.isStopped = true;
+        enemy.MakeNoise(enemy.dying);
         Debug.Log("oh nooo am ded");
     }
 

@@ -83,7 +83,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3720257457901177238}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &7878681678441190848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   jumpKey: 32
   trapPrefab: {fileID: 628939268252407089, guid: 905fb5a3e9dc4e54eb078fa0e50adc8b,
     type: 3}
-  numberOfTraps: 5
+  numberOfTraps: 3
 --- !u!54 &221705011
 Rigidbody:
   m_ObjectHideFlags: 0

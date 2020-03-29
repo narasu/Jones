@@ -42,6 +42,9 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         charController = GetComponent<CharacterController>();
+
+        AudioListenerFollow.Instance.playerCamera = gameObject.GetComponentInChildren<Camera>().transform;
+
         Debug.Log("Traps:" + CurrentTraps);
         NextPos = transform.position;
     }

@@ -83,7 +83,9 @@ public class WinState : GameState
     public override void Enter()
     {
         GameManager.Instance.winMenuObject.SetActive(true);
+        GameManager.Instance.EndLevel();
         Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0f;
     }
     public override void Update()
     {
@@ -92,6 +94,7 @@ public class WinState : GameState
     public override void Exit()
     {
         GameManager.Instance.winMenuObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 }
 public class DeadState : GameState
@@ -99,7 +102,9 @@ public class DeadState : GameState
     public override void Enter()
     {
         GameManager.Instance.deadMenuObject.SetActive(true);
+        GameManager.Instance.EndLevel();
         Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0f;
     }
     public override void Update()
     {
@@ -108,5 +113,6 @@ public class DeadState : GameState
     public override void Exit()
     {
         GameManager.Instance.deadMenuObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

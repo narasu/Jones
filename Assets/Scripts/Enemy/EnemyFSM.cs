@@ -14,6 +14,7 @@ public class EnemyFSM
     private Dictionary<EnemyStateType, EnemyState> states;
 #pragma warning restore 0649
 
+    
     private EnemyState currentState;
 
     public void Initialize(Enemy owner)
