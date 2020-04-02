@@ -62,15 +62,19 @@ public class Player : MonoBehaviour
     //handle player movement with input from the horizontal and vertical axes
     private void PlayerMove()
     {
-        float horizInput = Input.GetAxis(horizontalInputName) * movementSpeed;
-        float vertInput = Input.GetAxis(verticalInputName) * movementSpeed;
+        float horizInput = Input.GetAxisRaw(horizontalInputName);
+        float vertInput = Input.GetAxisRaw(verticalInputName);
 
         Vector3 forwardMovement = transform.forward * vertInput;
         Vector3 rightMovement = transform.right * horizInput;
 
-        charController.SimpleMove(forwardMovement + rightMovement);
+        //normalize the movement vector to prevent super fast diagonal movement ( and people cheesing my whole game >:C )
+        Vector3 movement = Vector3.Normalize(forwardMovement + rightMovement) * movementSpeed;
 
-        NextPos = transform.position + forwardMovement + rightMovement;
+        charController.SimpleMove(movement);
+
+        //store next position for the enemy to target
+        NextPos = transform.position + movement;
 
         JumpInput();
     }
@@ -81,14 +85,11 @@ public class Player : MonoBehaviour
         if (CurrentTraps <= 0)
             return;
 
-        
         GameObject trap = Instantiate(trapPrefab);
         GameManager.Instance.AddTrapToList(trap);
         trap.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         CurrentTraps--;
     }
-
-    
 
     public void RefillTraps()
     {

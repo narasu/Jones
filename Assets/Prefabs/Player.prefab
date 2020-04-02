@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalInputName: Horizontal
   verticalInputName: Vertical
-  movementSpeed: 10
+  movementSpeed: 10.5
   jumpFallOff:
     serializedVersion: 2
     m_Curve:

@@ -19,6 +19,7 @@ public class MainMenuState : GameState
         GameManager.Instance.mainMenuObject.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
     }
     public override void Update()
@@ -37,6 +38,7 @@ public class PlayState : GameState
     public override void Enter()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         GameManager.Instance.trapTextObject.SetActive(true);
     }
     public override void Update()
@@ -66,6 +68,7 @@ public class PauseState : GameState
         GameManager.Instance.pauseObject.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     public override void Update()
     {
@@ -85,6 +88,7 @@ public class WinState : GameState
         GameManager.Instance.winMenuObject.SetActive(true);
         GameManager.Instance.EndLevel();
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0f;
     }
     public override void Update()
@@ -104,6 +108,7 @@ public class DeadState : GameState
         GameManager.Instance.deadMenuObject.SetActive(true);
         GameManager.Instance.EndLevel();
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0f;
     }
     public override void Update()
