@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public Vector3 startingPoint;
 
-    [HideInInspector] public AudioSource audioSource;
+    private AudioSource audioSource;
     public AudioClip growl;
     public AudioClip footsteps;
     public AudioClip dying;
@@ -34,7 +34,6 @@ public class Enemy : MonoBehaviour
         //add states
         fsm.AddState(EnemyStateType.Idle, new EnemyIdle());
         fsm.AddState(EnemyStateType.Chase, new EnemyChase());
-        //fsm.AddState(EnemyStateType.Return, new EnemyReturn());
         fsm.AddState(EnemyStateType.Dead, new EnemyDead());
 
         //start in idle state
@@ -66,7 +65,6 @@ public class Enemy : MonoBehaviour
 
     public void ResetPosition()
     {
-        //transform.position = startingPoint;
         navMeshAgent.Warp(startingPoint);
     }
 
@@ -80,23 +78,8 @@ public class Enemy : MonoBehaviour
         fsm.GotoState(EnemyStateType.Chase);
     }
 
-    public void Return()
-    {
-        fsm.GotoState(EnemyStateType.Return);
-    }
-
     public void Die()
     {
         fsm.GotoState(EnemyStateType.Dead);
     }
-
-    /*
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag=="Player")
-        {
-            Return();
-        }
-    }
-    */
 }

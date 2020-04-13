@@ -24,7 +24,10 @@ public class MainMenuState : GameState
     }
     public override void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
     public override void Exit()
     {
@@ -43,7 +46,7 @@ public class PlayState : GameState
     }
     public override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             GameManager.Instance.GotoPause();
         }
@@ -72,7 +75,7 @@ public class PauseState : GameState
     }
     public override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Escape))
             GameManager.Instance.GotoPlay();
     }
     public override void Exit()

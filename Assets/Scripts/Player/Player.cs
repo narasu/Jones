@@ -21,10 +21,12 @@ public class Player : MonoBehaviour
     [SerializeField] private string horizontalInputName, verticalInputName;
     [SerializeField] private float movementSpeed;
 
+    /*
     [Header("Jumping")]
     [SerializeField] private AnimationCurve jumpFallOff;
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private KeyCode jumpKey;
+    */
 
     [Header("Traps")]
     [SerializeField] private GameObject trapPrefab;
@@ -37,7 +39,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public int CurrentTraps  { get; private set; } // how many traps the player is currently holding
 
     private CharacterController charController;
-    private bool isJumping;
+    //private bool isJumping;
     
     private void Awake()
     {
@@ -74,9 +76,21 @@ public class Player : MonoBehaviour
         charController.SimpleMove(movement);
 
         //store next position for the enemy to target
-        NextPos = transform.position + movement;
+        NextPos = transform.position + movement.normalized;
 
-        JumpInput();
+
+        //set NextPos to player position when the player walks into a wall, to prevent confusion for enemy nav mesh agent
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.position + movement, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.tag == "Environment")
+            {
+                NextPos = transform.position;
+            }
+        }
+
+        //JumpInput();
     }
     
     //create a trap at the player's position, if the player has traps in inventory
@@ -96,6 +110,7 @@ public class Player : MonoBehaviour
         CurrentTraps = numberOfTraps;
     }
 
+    /*
     //handle jump input
     private void JumpInput()
     {
@@ -122,4 +137,6 @@ public class Player : MonoBehaviour
         charController.slopeLimit = 45.0f;
         isJumping = false;
     }
+    */
+
 }

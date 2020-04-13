@@ -136,7 +136,6 @@ MonoBehaviour:
   target: {fileID: 0}
   hitRange: 2
   startingPoint: {x: 0, y: 0, z: 0}
-  audioSource: {fileID: 0}
   growl: {fileID: 8300000, guid: 8678c01f3eecea144bd93b7faa02a6b8, type: 3}
   footsteps: {fileID: 8300000, guid: 159ca7799cb2c91468680fd26fa1a980, type: 3}
   dying: {fileID: 8300000, guid: b81a267a5866a43468685a8cbb447ab4, type: 3}

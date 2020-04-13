@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         fsm.UpdateState();
     }
 
-    //Initialize the scene
+    //Initialize the scene (this method is called from UI onclick)
     public void StartLevel()
     {
         Debug.Log("Starting...");
@@ -91,7 +91,6 @@ public class GameManager : MonoBehaviour
             playerInstance.SetActive(true);
         }
 
-        Debug.Log(playerInstance.name);
         //move player to spawnpoint and refill traps
         playerInstance.transform.SetPositionAndRotation(playerSpawnPos, playerSpawnRot);
         playerInstance.GetComponent<Player>().RefillTraps();
@@ -136,6 +135,11 @@ public class GameManager : MonoBehaviour
     public void AddTrapToList(GameObject trap)
     {
         traps.Add(trap);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     //Methods for switching to each state

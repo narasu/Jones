@@ -53,23 +53,30 @@ public class EnemyChase : EnemyState
 
     public override void Update()
     {
-        //owner.NavMeshAgent.SetDestination(enemy.target.position);
-
+        owner.NavMeshAgent.SetDestination(enemy.target.position);
+        
+        
+        //the player's current position
         float distA = Vector3.Distance(enemy.transform.position, enemy.target.position);
+
+        // the player's next position
         float distB = Vector3.Distance(enemy.transform.position, Player.Instance.NextPos);
 
-        if (distB>distA)
+        
+
+        //if the player is walking away, go to player's next position
+        if (distB > distA)
         {
             owner.NavMeshAgent.SetDestination(Player.Instance.NextPos);
         }
-        else
+        else //if not, go to player's current position
         {
             owner.NavMeshAgent.SetDestination(enemy.target.position);
         }
 
+        //if the enemy hits the player
         if (Vector3.Distance(enemy.transform.position, enemy.target.position) < enemy.hitRange)
         {
-            //enemy.Return();
             GameManager.Instance.GotoDead();
         }
     }
@@ -79,31 +86,6 @@ public class EnemyChase : EnemyState
         enemy.StopCoroutine(footsteps);
     }
 }
-
-/*
-//Returning to starting position
-public class EnemyReturn : EnemyState
-{
-    public override void Enter()
-    {
-        owner.NavMeshAgent.isStopped = false;
-        owner.NavMeshAgent.SetDestination(enemy.startingPoint);
-    }
-
-    public override void Update()
-    {
-        if (enemy.transform.position == enemy.startingPoint)
-        {
-            enemy.Idle();
-        }
-    }
-
-    public override void Exit()
-    {
-
-    }
-}
-*/
 
 //Dead state
 public class EnemyDead : EnemyState

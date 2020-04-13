@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//the game does not start with a camera, but as soon as there is one, 
+//the audio listener needs to follow it
+
 public class AudioListenerFollow : MonoBehaviour
 {
     private static AudioListenerFollow instance;
@@ -24,7 +27,8 @@ public class AudioListenerFollow : MonoBehaviour
     {
         if (playerCamera != null)
         {
-            transform.position = playerCamera.transform.position;
+            //transform.position = playerCamera.transform.position;
+            transform.SetPositionAndRotation(playerCamera.transform.position, playerCamera.rotation);
         }
     }
 }
